@@ -5,7 +5,7 @@ const ConfirmOrderPage = () => {
   const navigate = useNavigate();
 
   const handleGoHome = () => {
-    navigate('/dashboard'); // Navigates to the homepage
+    navigate('/home'); // Navigates to the homepage
   };
 
   return (
