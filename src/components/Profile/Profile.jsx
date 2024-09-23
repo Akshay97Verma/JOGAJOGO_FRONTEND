@@ -1,18 +1,15 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom'; // Updated from useHistory
-import bgPic from '../../../public/123.avif'; // Background image
+import { useNavigate } from 'react-router-dom';
+import bgPic from '../../../public/b2.jpg';
 
 import ProfileEdit from '../ProfileEdit/ProfileEdit';
 import Address from '../Address/Address';
-import OffersCoupons from '../OffersCoupons/OffersCoupons';
-import AboutUs from '../AboutUs/AboutUs';
-import ContactUs from '../ContactUs/ContactUs';
-import RegisterAsPartner from '../RegisterAsPartner/RegisterAsPartner';
-import Share from '../Share/Share';
+import PostWorkLeave from '../PostWorkLeave/PostWorkLeave';
+import Info from '../Info/Info';
 
 const Profile = () => {
   const [section, setSection] = useState('profile');
-  const navigate = useNavigate(); // Updated from useHistory
+  const navigate = useNavigate();
 
   const renderSection = () => {
     switch (section) {
@@ -20,24 +17,17 @@ const Profile = () => {
         return <ProfileEdit />;
       case 'address':
         return <Address />;
-      case 'offers-coupons':
-        return <OffersCoupons />;
-      case 'about-us':
-        return <AboutUs />;
-      case 'contact-us':
-        return <ContactUs />;
-      case 'register-as-partner':
-        return <RegisterAsPartner />;
-      case 'share':
-        return <Share />;
+      case 'PostWorkLeave':
+        return <PostWorkLeave />;
+      case 'info':
+        return <Info />;
       default:
         return <h1 className="text-4xl font-bold">Your Profile</h1>;
     }
   };
 
   const handleLogout = () => {
-    // Clear user session or token (add your logic here)
-    navigate('/login'); // Updated from history.push to navigate
+    navigate('/');
   };
 
   return (
@@ -47,61 +37,45 @@ const Profile = () => {
         alt="Background"
         className="absolute inset-0 object-cover w-full h-full opacity-50"
       />
-      <div className="relative p-8 bg-white bg-opacity-90 rounded shadow-lg w-full md:w-3/4 lg:w-2/3 mx-auto z-10">
+      <div className="relative p-8 bg-white bg-opacity-90 rounded-lg shadow-2xl w-full md:w-3/4 lg:w-2/3 mx-auto z-10">
+        <h1 className="text-3xl font-semibold text-center mb-6">Profile Dashboard</h1>
+
         {/* Navigation Buttons */}
-        <div className="mb-4 grid grid-cols-2 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+        <div className="mb-6 grid grid-cols-2 gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
           <button
             onClick={() => setSection('edit-profile')}
-            className="bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded"
+            className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-5 rounded-lg shadow transition duration-200 ease-in-out transform hover:scale-105"
           >
-            My Profile Edit
+            Edit Profile
           </button>
           <button
             onClick={() => setSection('address')}
-            className="bg-green-500 hover:bg-green-600 text-white py-2 px-4 rounded"
+            className="bg-green-600 hover:bg-green-700 text-white font-bold py-3 px-5 rounded-lg shadow transition duration-200 ease-in-out transform hover:scale-105"
           >
-            Address (Save/Edit)
+            Address
           </button>
           <button
-            onClick={() => setSection('offers-coupons')}
-            className="bg-yellow-500 hover:bg-yellow-600 text-white py-2 px-4 rounded"
+            onClick={() => setSection('PostWorkLeave')}
+            className="bg-yellow-600 hover:bg-yellow-700 text-white font-bold py-3 px-5 rounded-lg shadow transition duration-200 ease-in-out transform hover:scale-105"
           >
-            Offers & Coupons
+            Post Work Leave
           </button>
           <button
-            onClick={() => setSection('about-us')}
-            className="bg-purple-500 hover:bg-purple-600 text-white py-2 px-4 rounded"
+            onClick={() => setSection('info')}
+            className="bg-purple-600 hover:bg-purple-700 text-white font-bold py-3 px-5 rounded-lg shadow transition duration-200 ease-in-out transform hover:scale-105"
           >
-            About Us
+            Info
           </button>
           <button
-            onClick={() => setSection('contact-us')}
-            className="bg-indigo-500 hover:bg-indigo-600 text-white py-2 px-4 rounded"
-          >
-            Contact Us
-          </button>
-          <button
-            onClick={() => setSection('register-as-partner')}
-            className="bg-pink-500 hover:bg-pink-600 text-white py-2 px-4 rounded"
-          >
-            Register as Partner
-          </button>
-          <button
-            onClick={() => setSection('share')}
-            className="bg-teal-500 hover:bg-teal-600 text-white py-2 px-4 rounded"
-          >
-            Share
-          </button>
-          <button
-            onClick={handleLogout} // Call handleLogout on click
-            className="bg-red-500 hover:bg-red-600 text-white py-2 px-4 rounded"
+            onClick={handleLogout}
+            className="bg-red-600 hover:bg-red-700 text-white font-bold py-3 px-5 rounded-lg shadow transition duration-200 ease-in-out transform hover:scale-105"
           >
             Logout
           </button>
         </div>
 
         {/* Render the selected section */}
-        <div className="bg-white p-6 rounded shadow-lg">
+        <div className="bg-white p-6 rounded-lg shadow-lg">
           {renderSection()}
         </div>
       </div>

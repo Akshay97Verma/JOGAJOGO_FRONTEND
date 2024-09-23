@@ -79,10 +79,49 @@
 
 
 
+// module.exports = {
+//   content: [
+//      './index.html', 
+//       './src/**/*.{js,jsx,ts,tsx}',
+//        plugins:[require('@tailwindcss/forms')],
+//   ],
+//   theme: {
+//     extend: {
+//       keyframes: {
+//         fadeIn: {
+//           '0%': { opacity: '0' },
+//           '100%': { opacity: '1' },
+//         },
+//         fadeInUp: {
+//           '0%': { opacity: '0', transform: 'translateY(20px)' },
+//           '100%': { opacity: '1', transform: 'translateY(0)' },
+//         },
+//         slideDown: {
+//           '0%': { transform: 'translateY(-100%)' },
+//           '100%': { transform: 'translateY(0)' },
+//         },
+//       },
+//       animation: {
+//         fadeIn: 'fadeIn 1s ease-out',
+//         fadeInUp: 'fadeInUp 1s ease-out',
+//         slideDown: 'slideDown 0.8s ease-out',
+//       },
+//       boxShadow: {
+//         'lg': '0 10px 15px rgba(0, 0, 0, 0.1)',
+//       },
+//     },
+//   },
+// }
+
+
+
+
+
+
 module.exports = {
   content: [
-     './index.html', 
-      './src/**/*.{js,jsx,ts,tsx}',
+    './index.html', 
+    './src/**/*.{js,jsx,ts,tsx}',
   ],
   theme: {
     extend: {
@@ -110,4 +149,5 @@ module.exports = {
       },
     },
   },
-}
+  plugins: [require('@tailwindcss/forms')],
+};

@@ -5,8 +5,8 @@ const TaskList = ({ tasks, updateTaskStatus }) => {
     <div className="bg-yellow-100 p-4 rounded-lg mb-6 md:p-6 lg:p-8">
       <h3 className="text-lg md:text-xl font-bold text-gray-700">Your Tasks</h3>
       <ul>
-        {tasks.map((task, index) => (
-          <li key={index} className="bg-white p-2 rounded my-2 flex justify-between">
+        {tasks.map((task) => (
+          <li key={task.id} className="bg-white p-3 rounded my-2 flex justify-between items-center shadow">
             <span>{task.name}</span>
             <button
               onClick={() => updateTaskStatus(task.id)}

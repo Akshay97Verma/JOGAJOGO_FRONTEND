@@ -1,10 +1,4 @@
-
-
-
-
-
-
-
+import logo from '../../../public/booking.png'; // Correct the path as needed
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
@@ -36,25 +30,22 @@ const RegisterAsPartner = () => {
     console.log("User registered:", formData);
     navigate('/partnerdashboard', { state: { userDetails: formData } });
   };
-  
+
   const loginUser = () => {
     console.log("User logged in with:", formData);
     navigate('/partnerdashboard', { state: { userDetails: formData } });
   };
-  
 
   const handleRegister = (event) => {
     event.preventDefault();
 
     if (isExistingUser) {
-      // Login logic for existing users
       if (!formData.password || (!formData.UserID && !formData.phone && !formData.email)) {
         alert("Please enter your UserID, phone, or email, and password to log in.");
         return;
       }
       loginUser();
     } else {
-      // Registration logic for new users
       if (!formData.UserID || !formData.name || !formData.phone) {
         alert("UserID, Name, and Phone are mandatory fields for registration!");
         return;
@@ -75,9 +66,12 @@ const RegisterAsPartner = () => {
   };
 
   return (
-    <div>
-      <h2 className="text-2xl font-bold">{isExistingUser ? "Login" : "Register as Partner"}</h2>
-      <form className="mt-4" onSubmit={handleRegister}>
+    <div className="max-w-md mx-auto p-6 bg-white shadow-md rounded-lg">
+      <div className="text-center mb-6">
+        <img src={logo} alt="Logo" className="w-full h-auto object-cover mb-4" />
+      </div>
+      <h2 className="text-2xl font-bold text-center">{isExistingUser ? "Login" : "Register as Partner"}</h2>
+      <form className="space-y-4" onSubmit={handleRegister}>
         {!isExistingUser && (
           <>
             <input
@@ -86,8 +80,8 @@ const RegisterAsPartner = () => {
               placeholder="User ID"
               value={formData.UserID}
               onChange={handleChange}
-              className="block w-full p-2 border border-gray-300 rounded mb-4"
-              required={!isExistingUser}
+              className="block w-full p-3 border border-gray-300 rounded focus:outline-none focus:ring focus:ring-purple-300"
+              required
             />
             <input
               type="text"
@@ -95,8 +89,8 @@ const RegisterAsPartner = () => {
               placeholder="Name"
               value={formData.name}
               onChange={handleChange}
-              className="block w-full p-2 border border-gray-300 rounded mb-4"
-              required={!isExistingUser}
+              className="block w-full p-3 border border-gray-300 rounded focus:outline-none focus:ring focus:ring-purple-300"
+              required
             />
             <input
               type="tel"
@@ -104,8 +98,8 @@ const RegisterAsPartner = () => {
               placeholder="Phone No"
               value={formData.phone}
               onChange={handleChange}
-              className="block w-full p-2 border border-gray-300 rounded mb-4"
-              required={!isExistingUser}
+              className="block w-full p-3 border border-gray-300 rounded focus:outline-none focus:ring focus:ring-purple-300"
+              required
             />
             <input
               type="text"
@@ -113,7 +107,7 @@ const RegisterAsPartner = () => {
               placeholder="Address"
               value={formData.address}
               onChange={handleChange}
-              className="block w-full p-2 border border-gray-300 rounded mb-4"
+              className="block w-full p-3 border border-gray-300 rounded focus:outline-none focus:ring focus:ring-purple-300"
             />
             <input
               type="email"
@@ -121,23 +115,21 @@ const RegisterAsPartner = () => {
               placeholder="Email (optional)"
               value={formData.email}
               onChange={handleChange}
-              className="block w-full p-2 border border-gray-300 rounded mb-4"
+              className="block w-full p-3 border border-gray-300 rounded focus:outline-none focus:ring focus:ring-purple-300"
             />
           </>
         )}
         
         {isExistingUser && (
-          <>
-            <input
-              type="text"
-              name="loginIdentifier"
-              placeholder="Enter UserID, Phone, or Email"
-              value={formData.UserID || formData.phone || formData.email}
-              onChange={handleChange}
-              className="block w-full p-2 border border-gray-300 rounded mb-4"
-              required
-            />
-          </>
+          <input
+            type="text"
+            name="loginIdentifier"
+            placeholder="Enter UserID, Phone, or Email"
+            value={formData.UserID || formData.phone || formData.email}
+            onChange={handleChange}
+            className="block w-full p-3 border border-gray-300 rounded focus:outline-none focus:ring focus:ring-purple-300"
+            required
+          />
         )}
 
         <input
@@ -146,7 +138,7 @@ const RegisterAsPartner = () => {
           placeholder="Password"
           value={formData.password}
           onChange={handleChange}
-          className="block w-full p-2 border border-gray-300 rounded mb-4"
+          className="block w-full p-3 border border-gray-300 rounded focus:outline-none focus:ring focus:ring-purple-300"
           required
         />
         
@@ -155,7 +147,7 @@ const RegisterAsPartner = () => {
             name="category"
             value={formData.category}
             onChange={handleChange}
-            className="block w-full p-2 border border-gray-300 rounded mb-4"
+            className="block w-full p-3 border border-gray-300 rounded focus:outline-none focus:ring focus:ring-purple-300"
           >
             <option value="">Select Category</option>
             <option value="maid">Maid</option>
@@ -183,17 +175,17 @@ const RegisterAsPartner = () => {
           </label>
         )}
         
-        <button className="bg-purple-500 text-white py-2 px-4 rounded">
+        <button className="w-full bg-purple-500 text-white py-3 rounded hover:bg-purple-600 transition duration-200">
           {isExistingUser ? "Login" : "Register"}
         </button>
       </form>
 
-      <div className="mt-4">
+      <div className="mt-4 text-center">
         <p>
           {isExistingUser ? "New user?" : "Already registered?"}
           <button
             type="button"
-            className="text-blue-500 ml-2"
+            className="text-blue-500 hover:underline ml-2"
             onClick={() => setIsExistingUser(!isExistingUser)}
           >
             {isExistingUser ? "Register Here" : "Login Here"}

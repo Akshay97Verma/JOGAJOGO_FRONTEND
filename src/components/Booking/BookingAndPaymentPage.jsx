@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import bgPic from '../../../public/congra.avif'; // Adjust the path if needed
+import bgPic from '../../../public/12.jpeg'; // Adjust the path if needed
 
 const BookingAndPaymentPage = () => {
   const { service } = useParams();

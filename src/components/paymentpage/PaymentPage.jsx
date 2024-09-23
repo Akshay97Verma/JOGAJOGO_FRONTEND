@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
-import bgPic from '../../../public/congra.avif';  // Background image import
+import bgPic from '../../../public/14.jpg';  // Background image import
 import BASE_URL from '../../../baseUrl';  // Base URL import
 
 const PaymentPage = () => {

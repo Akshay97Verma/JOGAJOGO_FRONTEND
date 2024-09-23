@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import axios from 'axios'; // Importing axios
+import axios from 'axios';
 import bgPic from '../../../public/baaaground.jpg';
-import BASE_URL from '../../../baseUrl'; // Make sure this is correctly set up
+import coverImage from '../../../public/login3.avif';
+import BASE_URL from '../../../baseUrl';
 
 const Login = () => {
   const navigate = useNavigate();
@@ -12,7 +13,6 @@ const Login = () => {
   });
   const [error, setError] = useState('');
 
-  // Update state with form data
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({
@@ -21,12 +21,10 @@ const Login = () => {
     });
   };
 
-  // Handle form submission
   const handleSubmit = (event) => {
     event.preventDefault();
     const { userName, password } = formData;
 
-    // Basic validation
     if (userName.trim() === '' || password.trim() === '') {
       setError('userName and password are required.');
       return;
@@ -34,34 +32,33 @@ const Login = () => {
 
     setError('');
 
-    // Send a POST request to login API
     axios.post(`${BASE_URL}/auth/login`, { userName, password })
       .then((response) => {
-        // Handle success response
         console.log('Login successful:', response.data);
-        // Navigate to the dashboard on successful login
         navigate('/dashboard');
       })
       .catch((error) => {
-        // Handle error (incorrect login, server issues, etc.)
         console.error('Login failed:', error.response ? error.response.data : error.message);
         setError('Login failed. Please check your userName and password.');
       });
   };
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-gradient-to-r from-blue-200 via-blue-400 to-blue-600 p-4 relative overflow-hidden">
-      <img 
-        src="/baaaground.jpg" 
-        alt="Background" 
-        className="absolute inset-0 object-cover w-full h-full opacity-50" 
-        loading="lazy"
-      />
+    <div className="flex flex-col items-center justify-center min-h-screen bg-gradient-to-r from-blue-200 via-blue-400 to-blue-600 p-4 relative overflow-hidden">
       <div className="relative z-10 w-full max-w-md bg-white p-8 border border-gray-300 rounded-lg shadow-lg shadow-blue-500/50 transition-transform transform hover:scale-105 hover:shadow-xl">
         <header className="text-center mb-8">
           <h1 className="text-4xl font-extrabold text-gray-800">Jogajogo</h1>
           <p className="text-gray-600 text-lg">Login to your account</p>
         </header>
+
+        {/* Cover Image inside the form */}
+        <div className="mb-4">
+          <img 
+            src={coverImage} 
+            alt="Cover" 
+            className="object-cover w-full h-40 rounded-md mb-4" 
+          />
+        </div>
 
         <form onSubmit={handleSubmit}>
           <div className="mb-4">
