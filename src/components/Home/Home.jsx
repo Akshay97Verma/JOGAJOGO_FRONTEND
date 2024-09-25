@@ -1,5 +1,6 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
+import { motion } from 'framer-motion'; // Import Framer Motion
 import logo from '../../../public/001.png'; // Adjust the path as needed
 
 const Home = () => {
@@ -12,7 +13,7 @@ const Home = () => {
   return (
     <div className="h-screen flex flex-col justify-between bg-gradient-to-r from-orange-400 to-yellow-300 text-gray-800">
       <header className="flex items-center justify-between p-6 bg-white bg-opacity-80 rounded-lg shadow-lg">
-        <img src={logo} alt="Jogajogo Logo" className="h-16" /> {/* Increased height */}
+        <img src={logo} alt="Jogajogo Logo" className="h-16" />
         <h1 className="text-2xl font-bold">Jogajogo Services</h1>
       </header>
 
@@ -22,24 +23,32 @@ const Home = () => {
           Exceptional services tailored for your needs. Connect with skilled professionals and experience high-quality standards.
         </p>
         <div className="flex flex-col md:flex-row space-y-4 md:space-y-0 md:space-x-4 mt-4">
-          <button
+          <motion.button
+            whileHover={{ scale: 1.1 }} // Scale on hover
+            whileTap={{ scale: 0.9 }} // Scale when clicked
             onClick={goToLogin}
             className="px-6 py-3 bg-white text-orange-600 rounded-lg shadow hover:bg-orange-500 hover:text-white transition duration-300"
           >
             Login
-          </button>
-          <button
+          </motion.button>
+
+          <motion.button
+            whileHover={{ scale: 1.1 }}
+            whileTap={{ scale: 0.9 }}
             onClick={goToDashboard}
             className="px-6 py-3 bg-white text-orange-600 rounded-lg shadow hover:bg-orange-500 hover:text-white transition duration-300"
           >
             Dashboard
-          </button>
-          <button
+          </motion.button>
+
+          <motion.button
+            whileHover={{ scale: 1.1 }}
+            whileTap={{ scale: 0.9 }}
             onClick={goToBookServices}
             className="px-6 py-3 bg-white text-orange-600 rounded-lg shadow hover:bg-orange-500 hover:text-white transition duration-300"
           >
             Book Services
-          </button>
+          </motion.button>
         </div>
       </main>
 
@@ -60,7 +69,7 @@ const Home = () => {
           ].map((service, index) => (
             <div key={index} className="p-4 bg-white rounded-lg shadow-md hover:shadow-xl transition-shadow duration-300">
               <div className="flex items-center mb-2">
-                <i className={`${service.icon} text-orange-600 text-2xl mr-2`}></i> {/* Icon added */}
+                <i className={`${service.icon} text-orange-600 text-2xl mr-2`}></i>
                 <h3 className="text-xl font-semibold">{service.title}</h3>
               </div>
               <p>{service.description}</p>

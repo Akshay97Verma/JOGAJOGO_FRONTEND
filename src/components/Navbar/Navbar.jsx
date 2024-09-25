@@ -13,7 +13,7 @@ const Navbar = () => {
         <ul className="hidden md:flex space-x-6 lg:space-x-12 text-white font-medium tracking-wider">
           <li className="group">
             <Link 
-              to="/" 
+              to="/HOME" 
               className="hover:text-yellow-400 transition-all duration-300"
             >
               Home
