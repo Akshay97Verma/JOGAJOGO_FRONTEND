@@ -47,7 +47,7 @@ const Home = () => {
             onClick={goToBookServices}
             className="px-6 py-3 bg-white text-orange-600 rounded-lg shadow hover:bg-orange-500 hover:text-white transition duration-300"
           >
-            Book Services
+            Register as Partner
           </motion.button>
         </div>
       </main>
