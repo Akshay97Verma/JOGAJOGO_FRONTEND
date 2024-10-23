@@ -47,7 +47,7 @@ const Login = () => {
     <div className="flex flex-col items-center justify-center min-h-screen bg-gradient-to-r from-blue-200 via-blue-400 to-blue-600 p-4 relative overflow-hidden">
       <div className="relative z-10 w-full max-w-md bg-white p-8 border border-gray-300 rounded-lg shadow-lg shadow-blue-500/50 transition-transform transform hover:scale-105 hover:shadow-xl">
         <header className="text-center mb-8">
-          <h1 className="text-4xl font-extrabold text-gray-800">Jogajogo</h1>
+          <h1 className="text-4xl font-extrabold text-gray-800">JOGA JOGO</h1>
           <p className="text-gray-600 text-lg">Login to your account</p>
         </header>
 
@@ -66,10 +66,10 @@ const Login = () => {
               type="text"
               name="userName"
               className="w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent transition-all duration-300 ease-in-out"
-              placeholder="userName"
+              placeholder="User Name"
               value={formData.userName}
               onChange={handleChange}
-              aria-label="userName"
+              aria-label="UserName"
               required
             />
           </div>
@@ -110,7 +110,7 @@ const Login = () => {
         </form>
 
         <footer className="mt-8 text-center text-gray-600">
-          <p>Made with <span className="text-red-500">♥</span> by Jogajogo</p>
+          <p>Made with <span className="text-red-500">♥</span> by JOGA JOGO</p>
           <a href="/privacy-policy" className="text-blue-500 hover:underline">Privacy Policy</a>
         </footer>
       </div>
