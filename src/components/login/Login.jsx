@@ -4,6 +4,8 @@ import axios from 'axios';
 import bgPic from '../../../public/baaaground.jpg';
 import coverImage from '../../../public/login3.avif';
 import BASE_URL from '../../../baseUrl';
+// Import the eye icons
+import { AiFillEye, AiFillEyeInvisible } from 'react-icons/ai';
 
 const Login = () => {
   const navigate = useNavigate();
@@ -12,6 +14,7 @@ const Login = () => {
     password: '',
   });
   const [error, setError] = useState('');
+  const [showPassword, setShowPassword] = useState(false); // State to toggle password visibility
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -66,16 +69,17 @@ const Login = () => {
               type="text"
               name="userName"
               className="w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent transition-all duration-300 ease-in-out"
-              placeholder="User Name"
+              placeholder="User ID"
               value={formData.userName}
               onChange={handleChange}
               aria-label="UserName"
               required
             />
           </div>
-          <div className="mb-6">
+          
+          <div className="mb-6 relative">
             <input
-              type="password"
+              type={showPassword ? 'text' : 'password'} // Toggle between text and password
               name="password"
               className="w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent transition-all duration-300 ease-in-out"
               placeholder="Password"
@@ -84,7 +88,15 @@ const Login = () => {
               aria-label="Password"
               required
             />
+            {/* Eye Icon to toggle password visibility */}
+            <span 
+              className="absolute inset-y-0 right-4 flex items-center cursor-pointer text-gray-500"
+              onClick={() => setShowPassword(!showPassword)} // Toggle show/hide password
+            >
+              {showPassword ? <AiFillEye size={24} /> : <AiFillEyeInvisible size={24} />}
+            </span>
           </div>
+
           {error && <p className="text-red-500 text-sm mb-4">{error}</p>}
 
           <div className="mb-6 flex items-center">
