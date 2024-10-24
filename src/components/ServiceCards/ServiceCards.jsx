@@ -49,7 +49,7 @@ const ServiceCards = () => {
       className="min-h-screen bg-cover bg-center flex items-center"
       style={{ backgroundImage: `url(${bgPic})`, background: colors.background,color:colors.text }}
     >
-      <div className="p-6 md:p-10 lg:p-14  bg-opacity-90 rounded-xl shadow-2xl max-w-7xl mx-auto transition-transform duration-300">
+      <div className="p-6 md:p-10 lg:p-14  bg-opacity-90 rounded-xl shadow-2xl max-w-7xl mx-auto transition-transform duration-300" style={{background:colors.secondbackground}}>
         <h1 className="text-4xl md:text-5xl font-extrabold text-center mb-8  font-sans tracking-tight">
           JoGa JoGo Services
         </h1>
