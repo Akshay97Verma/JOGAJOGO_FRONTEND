@@ -1,8 +1,13 @@
 import React, { useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import bgPic from '../../../public/12.jpeg'; // Adjust the path if needed
+import { useSelector } from 'react-redux';
+import { useThemeColors } from '../../utils/useThemeColor';
 
 const BookingAndPaymentPage = () => {
+
+  const isDarkEnabled = useSelector((state)=> state.darkmode.dark);
+  const colors = useThemeColors(isDarkEnabled);
   const { service } = useParams();
   const navigate = useNavigate();
 
@@ -46,30 +51,31 @@ const BookingAndPaymentPage = () => {
       className="min-h-screen p-6 bg-cover bg-center"
       style={{ backgroundImage: `url(${bgPic})` }}
     >
-      <div className="bg-white bg-opacity-80 p-6 rounded-lg shadow-md max-w-md mx-auto">
-        <h1 className="text-3xl font-bold mb-4 text-gray-900">
+      <div className=" bg-opacity-80 p-6 rounded-lg shadow-md max-w-md mx-auto" style={{background:colors.secondbackground,color:colors.text}}>
+        <h1 className="text-3xl font-bold mb-4">
           Booking and Payment for {service}
         </h1>
-        <p className="mb-6 text-gray-700">
+        <p className="mb-6 ">
           Please fill in your details and confirm your booking for {service}.
         </p>
 
         <div className="mb-4">
-          <h2 className="text-xl font-semibold text-gray-800">Details</h2>
-          <p className="text-gray-700">Service: {service}</p>
-          <p className="text-gray-700">Price: {price}</p>
+          <h2 className="text-xl font-semibold">Details</h2>
+          <p className="">Service: {service}</p>
+          <p className="">Price: {price}</p>
         </div>
 
         {/* Combined Form for Booking and Payment */}
         <form
-          className="bg-white p-6 rounded-lg shadow-md"
+          className=" p-6 rounded-lg shadow-md"
+          style={{background:colors.cardBg}}
           onSubmit={handleSubmit}
         >
           <div className="mb-4">
-            <label className="block text-gray-800">Full Name</label>
+            <label className="block">Full Name</label>
             <input
               type="text"
-              className="w-full p-2 border border-gray-300 rounded-lg"
+              className="w-full p-2 border border-gray-300 rounded-lg text-gray-800"
               value={name}
               onChange={(e) => setName(e.target.value)}
               required
@@ -77,10 +83,10 @@ const BookingAndPaymentPage = () => {
           </div>
 
           <div className="mb-4">
-            <label className="block text-gray-800">Contact Information</label>
+            <label className="block">Contact Information</label>
             <input
               type="tel"
-              className="w-full p-2 border border-gray-300 rounded-lg"
+              className="w-full p-2 border border-gray-300 rounded-lg text-gray-800"
               placeholder="Enter 10-digit mobile number"
               value={contact}
               onChange={(e) => setContact(e.target.value)}
@@ -91,11 +97,11 @@ const BookingAndPaymentPage = () => {
             )}
           </div>
 
-          <div className="mb-4">
-            <label className="block text-gray-800">Address</label>
+          <div className="mb-4" style={{color:colors.text}}>
+            <label className="block">Address</label>
             <input
               type="text"
-              className="w-full p-2 border border-gray-300 rounded-lg"
+              className="w-full p-2 border border-gray-300 rounded-lg text-gray-800 "
               value={address}
               onChange={(e) => setAddress(e.target.value)}
               required
@@ -103,10 +109,10 @@ const BookingAndPaymentPage = () => {
           </div>
 
           <div className="mb-4">
-            <label className="block text-gray-800">Schedule (Date & Time)</label>
+            <label className="block ">Schedule (Date & Time)</label>
             <input
               type="datetime-local"
-              className="w-full p-2 border border-gray-300 rounded-lg"
+              className="w-full p-2 border border-gray-300 rounded-lg text-gray-800"
               value={schedule}
               onChange={(e) => setSchedule(e.target.value)}
               required
