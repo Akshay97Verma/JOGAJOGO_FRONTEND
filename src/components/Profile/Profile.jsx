@@ -41,7 +41,7 @@ const Profile = () => {
         alt="Background"
         className="absolute inset-0 object-cover w-full h-full opacity-50"
       />
-      <div className="relative p-8 bg-white bg-opacity-90 rounded-lg shadow-2xl w-full md:w-3/4 lg:w-2/3 mx-auto z-10">
+      <div className="relative p-8 bg-opacity-90 rounded-lg shadow-2xl w-full md:w-3/4 lg:w-2/3 mx-auto z-10" style={{background:colors.secondbackground,color:colors.text}}>
         <h1 className="text-3xl font-semibold text-center mb-6">Profile Dashboard</h1>
 
         {/* Navigation Buttons */}
@@ -90,7 +90,7 @@ const Profile = () => {
         </div>
 
         {/* Render the selected section */}
-        <div className="bg-white p-6 rounded-lg shadow-lg">
+        <div className=" p-6 rounded-lg shadow-lg" style={{background:colors.cardBg}}>
           {renderSection()}
         </div>
       </div>

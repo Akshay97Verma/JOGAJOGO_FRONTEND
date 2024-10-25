@@ -1,8 +1,14 @@
 import React, { useState } from 'react';
 import bgPic from '../../../public/a2.jpg'; // Importing your background image
-import { FaSpinner } from 'react-icons/fa'; // Loading spinner icon (you can install it via: npm install react-icons)
+import { FaSpinner } from 'react-icons/fa'; 
+import { useSelector } from 'react-redux';
+import { useThemeColors } from '../../utils/useThemeColor';
 
 const Address = () => {
+
+  const isDarkEnabled = useSelector((state)=> state.darkmode.dark);
+  const colors = useThemeColors(isDarkEnabled);
+
   const [formData, setFormData] = useState({ address: '', city: '', postalCode: '' });
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
@@ -48,8 +54,8 @@ const Address = () => {
       className="min-h-screen flex items-center justify-center bg-cover bg-center"
       style={{ backgroundImage: `url(${bgPic})` }}
     >
-      <div className="max-w-lg w-full bg-white/80 backdrop-blur-lg p-8 rounded-lg shadow-lg">
-        <h2 className="text-3xl font-bold text-gray-800 text-center mb-6">
+      <div className={`max-w-lg w-full  p-8 rounded-lg shadow-lg ${isDarkEnabled ? "bg-[#040836]" : "bg-white/80 backdrop-blur-lg"}`} style={{color:colors.text}}>
+        <h2 className="text-3xl font-bold text-center mb-6">
           Save or Edit Your Address
         </h2>
 
@@ -73,6 +79,7 @@ const Address = () => {
               onChange={handleChange}
               placeholder="Enter your address"
               className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+              style={{background:colors.cardBg}}
             />
           </div>
 
@@ -85,6 +92,8 @@ const Address = () => {
               onChange={handleChange}
               placeholder="Enter your city"
               className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+              style={{background:colors.cardBg}}
+
             />
           </div>
 
@@ -97,6 +106,8 @@ const Address = () => {
               onChange={handleChange}
               placeholder="Postal Code"
               className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+              style={{background:colors.cardBg}}
+
             />
           </div>
 
@@ -119,7 +130,9 @@ const Address = () => {
             <button
               type="button"
               onClick={handleReset}
-              className="w-1/2 bg-gray-300 text-gray-700 py-2 rounded-lg ml-2 hover:bg-gray-400 transition duration-300"
+              className="w-1/2 bg-gray-300 text-gray-700 py-2 rounded-lg ml-2 hover:bg-gray-400 transition duration-300 shadow-lg"
+              style={{background:colors.cardBg,color:colors.text}}
+
             >
               Reset
             </button>

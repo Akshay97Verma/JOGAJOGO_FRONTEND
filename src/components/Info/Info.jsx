@@ -4,15 +4,20 @@ import bgPic from '../../../public/about.jpg'; // About section
 import bgPic2 from '../../../public/serv.jpg'; // Services section
 import bgPic3 from '../../../public/c.jpg'; // Contact Us section
 import bgPic4 from '../../../public/share.jpg'; // Share section
+import { useSelector } from 'react-redux';
+import { useThemeColors } from '../../utils/useThemeColor';
 
 const Info = () => {
+  const isDarkEnabled = useSelector((state) => state.darkmode.dark);
+  const colors = useThemeColors(isDarkEnabled);
+
   const [currentTab, setCurrentTab] = useState('about');
 
   const renderContent = () => {
     switch (currentTab) {
       case 'about':
         return (
-          <div className="text-gray-700">
+          <div className="" style={{ background: colors.secondbackground }}>
             <h3 className="text-3xl font-semibold mb-4">About Joga Jogo</h3>
             <p className="leading-relaxed mb-4">
               Joga Jogo is a cutting-edge tech company dedicated to providing innovative solutions for users worldwide. Our mission is to deliver high-quality products and services that cater to the needs of both businesses and individuals.
@@ -25,7 +30,7 @@ const Info = () => {
         );
       case 'contact':
         return (
-          <div className="text-gray-700">
+          <div className="">
             <h3 className="text-3xl font-semibold mb-4">Contact Us</h3>
             <p className="leading-relaxed mb-4">
               Get in touch with us at Joga Jogo for inquiries or support.
@@ -52,7 +57,7 @@ const Info = () => {
         );
       case 'services':
         return (
-          <div className="text-gray-700">
+          <div className="">
             <h3 className="text-3xl font-semibold mb-4">Our Services</h3>
             <p className="leading-relaxed mb-4">
               At Joga Jogo, we offer a variety of services aimed at helping you grow your business or improve your personal productivity.
@@ -73,7 +78,7 @@ const Info = () => {
         );
       case 'share':
         return (
-          <div className="text-gray-700">
+          <div className="">
             <h3 className="text-3xl font-semibold mb-4">Share Joga Jogo</h3>
             <p className="leading-relaxed mb-4">
               Love what we do? Share our platform with your friends and family! Spread the word about the exceptional services we offer at Joga Jogo.
@@ -88,42 +93,50 @@ const Info = () => {
   };
 
   return (
-    <div className="p-6 min-h-screen bg-gray-100 flex items-center justify-center">
-      <div className="bg-white bg-opacity-90 p-8 rounded-xl shadow-xl max-w-3xl w-full mx-auto">
+    <div className="p-6 min-h-screen bg-gray-100 flex items-center justify-center" style={{ background: colors.secondbackground }}>
+      <div className="bg-white bg-opacity-90 p-8 rounded-xl shadow-xl max-w-3xl w-full mx-auto" style={{ background: colors.secondbackground, color: colors.text }}>
         <h2 className="text-4xl font-bold text-center mb-8 text-blue-600">Welcome to Joga Jogo</h2>
         <div className="flex flex-wrap justify-center space-x-4 mb-8">
           <button
             onClick={() => setCurrentTab('about')}
-            className={`py-2 px-6 rounded-lg font-semibold transition duration-300 ease-in-out transform ${
-              currentTab === 'about' ? 'bg-blue-500 text-white scale-110' : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
-            }`}
+            className={`py-2 px-6 rounded-lg font-semibold transition duration-300 ease-in-out transform ${currentTab === 'about'
+              ? 'bg-blue-500 text-white scale-110'
+              : `${isDarkEnabled ? 'bg-[#0e1a49] text-gray-200' : 'bg-gray-200 text-gray-700'} hover:bg-gray-300`
+              }`}
           >
             About Us
           </button>
+
           <button
             onClick={() => setCurrentTab('services')}
-            className={`py-2 px-6 rounded-lg font-semibold transition duration-300 ease-in-out transform ${
-              currentTab === 'services' ? 'bg-blue-500 text-white scale-110' : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
-            }`}
+            className={`py-2 px-6 rounded-lg font-semibold transition duration-300 ease-in-out transform ${currentTab === 'services'
+              ? 'bg-blue-500 text-white scale-110'
+              : `${isDarkEnabled ? 'bg-[#0e1a49] text-gray-200' : 'bg-gray-200 text-gray-700'} hover:bg-gray-300`
+              }`}
           >
             Services
           </button>
+
           <button
             onClick={() => setCurrentTab('contact')}
-            className={`py-2 px-6 rounded-lg font-semibold transition duration-300 ease-in-out transform ${
-              currentTab === 'contact' ? 'bg-blue-500 text-white scale-110' : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
-            }`}
+            className={`py-2 px-6 rounded-lg font-semibold transition duration-300 ease-in-out transform ${currentTab === 'contact'
+              ? 'bg-blue-500 text-white scale-110'
+              : `${isDarkEnabled ? 'bg-[#0e1a49] text-gray-200' : 'bg-gray-200 text-gray-700'} hover:bg-gray-300`
+              }`}
           >
             Contact Us
           </button>
+
           <button
             onClick={() => setCurrentTab('share')}
-            className={`py-2 px-6 rounded-lg font-semibold transition duration-300 ease-in-out transform ${
-              currentTab === 'share' ? 'bg-blue-500 text-white scale-110' : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
-            }`}
+            className={`py-2 px-6 rounded-lg font-semibold transition duration-300 ease-in-out transform ${currentTab === 'share'
+                ? 'bg-blue-500 text-white scale-110'
+                : `${isDarkEnabled ? 'bg-[#0e1a49] text-gray-200' : 'bg-gray-200 text-gray-700'} hover:bg-gray-300`
+              }`}
           >
             Share
           </button>
+
         </div>
 
         <div className="mt-4">{renderContent()}</div>

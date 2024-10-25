@@ -2,8 +2,14 @@ import React, { useState } from 'react';
 import { ToastContainer, toast } from 'react-toastify'; // Make sure to install this
 import 'react-toastify/dist/ReactToastify.css';
 import bgPic from '../../../public/p2.avif';
+import { useSelector } from 'react-redux';
+import { useThemeColors } from '../../utils/useThemeColor';
 
 const PostWorkLeave = () => {
+
+  const isDarkEnabled = useSelector((state) => state.darkmode.dark);
+  const colors = useThemeColors(isDarkEnabled);
+
   const [leaves, setLeaves] = useState([]);
   const [leaveType, setLeaveType] = useState('');
   const [startTime, setStartTime] = useState('');
@@ -64,7 +70,7 @@ const PostWorkLeave = () => {
       className="flex items-center justify-center min-h-screen bg-cover"
       style={{ backgroundImage: `url(${bgPic})` }}
     >
-      <div className="bg-white bg-opacity-90 rounded-lg shadow-md p-6 max-w-lg w-full">
+      <div className=" bg-opacity-90 rounded-lg shadow-md p-6 max-w-lg w-full" style={{background:colors.secondbackground}}>
         <h2 className="text-2xl font-bold mb-4 text-center">Post-Work Leave Tracker</h2>
         
         <form onSubmit={handleAddLeave} className="mb-4 space-y-4">
@@ -75,14 +81,16 @@ const PostWorkLeave = () => {
             placeholder="Enter leave type"
             className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
             required
+            style={{background:colors.cardBg}}
           />
           <div className="flex space-x-4">
             <input
               type="time"
               value={startTime}
               onChange={(e) => setStartTime(e.target.value)}
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
+              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 "
               required
+              style={{background:colors.cardBg,}}
             />
             <input
               type="time"
@@ -90,12 +98,16 @@ const PostWorkLeave = () => {
               onChange={(e) => setEndTime(e.target.value)}
               className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
               required
+              style={{background:colors.cardBg}}
+
             />
           </div>
           <select
             value={status}
             onChange={(e) => setStatus(e.target.value)}
             className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
+            style={{background:colors.cardBg}}
+
           >
             <option value="Pending">Pending</option>
             <option value="Complete">Complete</option>
@@ -106,6 +118,8 @@ const PostWorkLeave = () => {
             onChange={(e) => setFeedback(e.target.value)}
             placeholder="Leave feedback (optional)"
             className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500"
+            style={{background:colors.cardBg}}
+
           />
           <div className="flex items-center">
             <input

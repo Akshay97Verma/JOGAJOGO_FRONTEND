@@ -1,8 +1,13 @@
 import logo from '../../../public/booking.png'; // Correct the path as needed
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+import { useThemeColors } from '../../utils/useThemeColor';
 
 const RegisterAsPartner = () => {
+  const isDarkEnabled = useSelector((state) => state.darkmode.dark);
+  const colors = useThemeColors(isDarkEnabled);
+
   const navigate = useNavigate();
 
   const [formData, setFormData] = useState({
@@ -66,7 +71,7 @@ const RegisterAsPartner = () => {
   };
 
   return (
-    <div className="max-w-md mx-auto p-6 bg-white shadow-md rounded-lg">
+    <div className="max-w-md mx-auto p-6 shadow-md rounded-lg">
       <div className="text-center mb-6">
         <img src={logo} alt="Logo" className="w-full h-auto object-cover mb-4" />
       </div>
