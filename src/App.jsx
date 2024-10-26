@@ -31,7 +31,7 @@ function App() {
 
         {/* Partner Dashboard Route */}
         <Route path="/partnerdashboard" element={<PartnerDashboard />} />
-        <Route path="/book/:service" element={<BookingAndPaymentPage />} />
+        <Route path="/dashboard/:service" element={<BookingAndPaymentPage />} />
         <Route path="/booking" element={<ServiceCards />} />
         <Route path="/dashboard/partner-register" element={<RegisterAsPartner />} />
         <Route path="/dashboard/partner-login" element={<LoginAsPartner/>}/>

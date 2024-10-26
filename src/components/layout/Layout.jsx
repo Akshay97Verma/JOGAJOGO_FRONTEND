@@ -5,7 +5,8 @@ import ServiceCards from '../ServiceCards/ServiceCards';
 import { useSelector } from 'react-redux';
 import { useThemeColors } from '../../utils/useThemeColor';
 
-const Layout = () => {
+
+const Layout = ({children}) => {
   const isDarkEnabled = useSelector((state)=> state.darkmode.dark);
   const colors = useThemeColors(isDarkEnabled);
 
@@ -24,9 +25,9 @@ const Layout = () => {
         </div>
 
         {/* Outlet renders other components */}
-        <div className="mt-6 bg-gray-800 rounded-lg shadow-lg p-6">
+        {/* <div className="mt-6 bg-gray-800 rounded-lg shadow-lg p-6">
           <Outlet />
-        </div>
+        </div> */}
       </div>
     </div>
   );

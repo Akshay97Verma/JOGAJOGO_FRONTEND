@@ -1,5 +1,5 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import { serviceRegister } from "../api/auth";
+import { serviceLogin, serviceRegister } from "../api/auth";
 import { toast } from "react-toastify";
 
 
@@ -8,6 +8,19 @@ export const serviceAuthRegister = createAsyncThunk(
   async (payload, { rejectWithValue }) => {
     try {
       const response = await serviceRegister(payload);
+      return response.data;
+    } catch (error) {
+      toast.error(error?.response?.data?.message);
+      return rejectWithValue(error?.response?.data?.message);
+    }
+  }
+);
+
+export const serviceAuthLogin = createAsyncThunk(
+  "servicelog",
+  async (payload, { rejectWithValue }) => {
+    try {
+      const response = await serviceLogin(payload);
       return response.data;
     } catch (error) {
       toast.error(error?.response?.data?.message);
@@ -47,6 +60,23 @@ const serviceAuthSlice = createSlice({
         localStorage.setItem("service_access_token", action.payload.token);
       })
       .addCase(serviceAuthRegister.rejected, (state, action) => {
+        console.log("failed");
+        state.status = "failed";
+        state.error = action.payload;
+      })
+      .addCase(serviceAuthLogin.pending, (state) => {
+        console.log("pending");
+        state.status = "loading";
+        state.error = null;
+      })
+      .addCase(serviceAuthLogin.fulfilled, (state, action) => {
+        console.log("success", action.payload);
+        state.status = "success";
+        state.data = action.payload;
+        localStorage.setItem("isSrviceAuthenticated", JSON.stringify(true));
+        localStorage.setItem("service_access_token", action.payload.token);
+      })
+      .addCase(serviceAuthLogin.rejected, (state, action) => {
         console.log("failed");
         state.status = "failed";
         state.error = action.payload;

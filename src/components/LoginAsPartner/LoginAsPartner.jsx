@@ -1,7 +1,11 @@
 import React, { useState } from "react";
 import logo from "../../../public/booking.png";
+import { useDispatch } from "react-redux";
+import { serviceAuthLogin } from "../../redux/slice/serviceAuthSlice";
+import { toast } from "react-toastify";
 
 const LoginAsPartner = () => {
+    const dispatch = useDispatch();
     const [formData, setFormData] = useState({
         email: "",
         password: "",
@@ -15,8 +19,13 @@ const LoginAsPartner = () => {
         }));
       };
     
-    const handleSubmit = () =>{
-
+    const handleSubmit = async (e) =>{
+      e.preventDefault();
+      const result = await dispatch(serviceAuthLogin(formData));
+      if(result?.payload?.success){
+        toast.success(result.payload.message)
+      }
+      console.log(formData)
     }
   return (
     <div className="max-w-md mx-auto p-6 bg-white shadow-md rounded-lg">
@@ -63,7 +72,7 @@ const LoginAsPartner = () => {
             type="button"
             className="text-blue-500 hover:underline ml-2"
           >
-            Register Here
+            haven't acount Register Here
           </button>
         </p>
       </div>

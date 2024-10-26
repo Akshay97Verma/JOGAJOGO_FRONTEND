@@ -17,6 +17,14 @@ export const serviceRegister = (payload) => {
   });
 };
 
+export const serviceLogin = (payload) => {
+  return axios.post(`${BASE_URL}/service/service-login`, payload, {
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+    },
+  });
+};
+
 
 
 

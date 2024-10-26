@@ -9,7 +9,7 @@ const ServiceCard = ({ service, serviceImage }) => {
   const navigate = useNavigate();
 
   const handleBookNow = () => {
-    navigate(`/book/${service}`);
+    navigate(`/dashboard/${service}`);
   };
 
   return (
