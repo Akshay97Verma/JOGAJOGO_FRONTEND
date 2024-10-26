@@ -4,6 +4,7 @@ import storage from "redux-persist/lib/storage";
 import darkModeReducer from "./slice/darkModeSlice";
 import authSlice from "./slice/authSlice";
 import serviceAuthSlice from "./slice/serviceAuthSlice"
+import userSlice from "./slice/user/getUserSlice";
 
 const persistConfig = {
   key: "root",
@@ -20,11 +21,17 @@ const serviceAuth = persistReducer(
   serviceAuthSlice
 );
 
+const getUser = persistReducer(
+  { ...persistConfig, key: "getUser" },
+  userSlice
+);
+
 const store = configureStore({
   reducer: {       
     darkmode: darkModeReducer, 
     auth: auth,
-    authservice:serviceAuth
+    authservice:serviceAuth,
+    getUser:getUser
   },
 });
 
