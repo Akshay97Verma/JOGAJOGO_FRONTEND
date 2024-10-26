@@ -4,14 +4,16 @@ import axios from 'axios';
 import coverImage from '../../../public/LOGIN 2.avif'; // Import your cover image here
 import BASE_URL from '../../../baseUrl';
 import { FiEye, FiEyeOff } from 'react-icons/fi'; // Import eye icons from react-icons
-
+import { useDispatch } from 'react-redux';
+import { AuthRegister } from '../../redux/slice/authSlice';
+import { toast } from 'react-toastify';
 
 const Register = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const [formData, setFormData] = useState({
     name: '',
-    userName: '',
     email: '',
     password: '',
   });
@@ -42,22 +44,23 @@ const Register = () => {
   };
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
-    if (validateForm()) {
-      try {
-        const response = await axios.post(`${BASE_URL}/auth/register`, formData);
-        setIsRegistered(true);
-        navigate('/dashboard'); // Navigate to the dashboard after registration
-      } catch (error) {
-        setErrors({ general: 'Registration failed. Please try again later.' });
+    try {
+       e.preventDefault();
+      const result = await dispatch(AuthRegister(formData))
+      console.log(result)
+      if(result.payload?.success){
+        navigate('/dashboard');
+        toast.success(result.payload.message)
       }
+    } catch (error) {
+     console.log(error) 
     }
+   
   };
 
   const handleReset = () => {
     setFormData({
       name: '',
-      userName: '',
       email: '',
       password: '',
     });
@@ -92,17 +95,6 @@ const Register = () => {
               aria-label="Name"
             />
 
-            {/* Username */}
-            <input
-              type="text"
-              name="userName"
-              className="w-full px-4 py-3 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 transition-transform duration-300 ease-in-out"
-              placeholder="User ID"
-              value={formData.userName}
-              onChange={handleInputChange}
-              required
-              aria-label="UserName"
-            />
 
             {/* Email */}
             <input

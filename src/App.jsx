@@ -14,6 +14,7 @@ import RegisterAsPartner from './components/RegisterAsPartner/RegisterAsPartner'
 import BookingAndPaymentPage from './components/Booking/BookingAndPaymentPage';
 import ConfirmOrderPage from './components/ConfirmOrderPage/ConfirmOrderPage';
 import ServiceCards from './components/ServiceCards/ServiceCards';
+import LoginAsPartner from './components/LoginAsPartner/LoginAsPartner';
 
 function App() {
 
@@ -32,7 +33,8 @@ function App() {
         <Route path="/partnerdashboard" element={<PartnerDashboard />} />
         <Route path="/book/:service" element={<BookingAndPaymentPage />} />
         <Route path="/booking" element={<ServiceCards />} />
-        <Route path="/partner/register" element={<RegisterAsPartner />} />
+        <Route path="/dashboard/partner-register" element={<RegisterAsPartner />} />
+        <Route path="/dashboard/partner-login" element={<LoginAsPartner/>}/>
         <Route path="/dashboard" element={<Layout />}>
           {/* Nested routes can go here */}
         </Route>

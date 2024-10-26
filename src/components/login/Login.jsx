@@ -1,19 +1,22 @@
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
-import bgPic from '../../../public/baaaground.jpg';
-import coverImage from '../../../public/login3.avif';
-import BASE_URL from '../../../baseUrl';
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
+import bgPic from "../../../public/baaaground.jpg";
+import coverImage from "../../../public/login3.avif";
+import BASE_URL from "../../../baseUrl";
+import { useDispatch } from "react-redux";
 // Import the eye icons
-import { AiFillEye, AiFillEyeInvisible } from 'react-icons/ai';
+import { AiFillEye, AiFillEyeInvisible } from "react-icons/ai";
+import { AuthUser } from "../../redux/slice/authSlice";
 
 const Login = () => {
+  const dispatch = useDispatch();
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
-    userName: '',
-    password: '',
+    email: "",
+    password: "",
   });
-  const [error, setError] = useState('');
+  const [error, setError] = useState("");
   const [showPassword, setShowPassword] = useState(false); // State to toggle password visibility
 
   const handleChange = (e) => {
@@ -24,26 +27,27 @@ const Login = () => {
     });
   };
 
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    const { userName, password } = formData;
+  const handleSubmit = async (event) => {
+    try {
+      event.preventDefault();
+      const { email, password } = formData;
 
-    if (userName.trim() === '' || password.trim() === '') {
-      setError('userName and password are required.');
-      return;
+      if (email.trim() === "" || password.trim() === "") {
+        setError("Email and password are required.");
+        return;
+      }
+
+      setError("");
+      const result = await dispatch(AuthUser(formData));
+      console.log(result.payload);
+      if (result.payload.success) {
+        navigate("/dashboard");
+      }
+    } catch (error) {
+      console.log(error)
     }
 
-    setError('');
-
-    axios.post(`${BASE_URL}/auth/login`, { userName, password })
-      .then((response) => {
-        console.log('Login successful:', response.data);
-        navigate('/dashboard');
-      })
-      .catch((error) => {
-        console.error('Login failed:', error.response ? error.response.data : error.message);
-        setError('Login failed. Please check your userName and password.');
-      });
+    
   };
 
   return (
@@ -56,30 +60,30 @@ const Login = () => {
 
         {/* Cover Image inside the form */}
         <div className="mb-4">
-          <img 
-            src={coverImage} 
-            alt="Cover" 
-            className="object-cover w-full h-40 rounded-md mb-4" 
+          <img
+            src={coverImage}
+            alt="Cover"
+            className="object-cover w-full h-40 rounded-md mb-4"
           />
         </div>
 
         <form onSubmit={handleSubmit}>
           <div className="mb-4">
             <input
-              type="text"
-              name="userName"
+              type="email"
+              name="email"
               className="w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent transition-all duration-300 ease-in-out"
-              placeholder="User ID"
-              value={formData.userName}
+              placeholder="Email Id"
+              value={formData.email}
               onChange={handleChange}
               aria-label="UserName"
               required
             />
           </div>
-          
+
           <div className="mb-6 relative">
             <input
-              type={showPassword ? 'text' : 'password'} // Toggle between text and password
+              type={showPassword ? "text" : "password"} // Toggle between text and password
               name="password"
               className="w-full px-4 py-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent transition-all duration-300 ease-in-out"
               placeholder="Password"
@@ -89,41 +93,58 @@ const Login = () => {
               required
             />
             {/* Eye Icon to toggle password visibility */}
-            <span 
+            <span
               className="absolute inset-y-0 right-4 flex items-center cursor-pointer text-gray-500"
               onClick={() => setShowPassword(!showPassword)} // Toggle show/hide password
             >
-              {showPassword ? <AiFillEye size={24} /> : <AiFillEyeInvisible size={24} />}
+              {showPassword ? (
+                <AiFillEye size={24} />
+              ) : (
+                <AiFillEyeInvisible size={24} />
+              )}
             </span>
           </div>
 
           {error && <p className="text-red-500 text-sm mb-4">{error}</p>}
 
           <div className="mb-6 flex items-center">
-            <input 
-              type="checkbox" 
-              id="rememberMe" 
+            <input
+              type="checkbox"
+              id="rememberMe"
               className="mr-2 text-blue-600"
               aria-label="Remember me"
             />
-            <label htmlFor="rememberMe" className="text-gray-700">Remember me</label>
+            <label htmlFor="rememberMe" className="text-gray-700">
+              Remember me
+            </label>
           </div>
-          <button 
-            type="submit" 
+          <button
+            type="submit"
             className="w-full px-4 py-3 bg-blue-500 text-white font-semibold rounded-md hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-600 transition-all duration-300 ease-in-out"
           >
             Login
           </button>
           <div className="mt-6 text-center">
-            <a href="/forgot-password" className="text-blue-500 hover:underline">Forgot Password?</a>
+            <a
+              href="/forgot-password"
+              className="text-blue-500 hover:underline"
+            >
+              Forgot Password?
+            </a>
             <br />
-            <a href="/register" className="text-blue-500 hover:underline">Create an Account</a>
+            <a href="/register" className="text-blue-500 hover:underline">
+              Create an Account
+            </a>
           </div>
         </form>
 
         <footer className="mt-8 text-center text-gray-600">
-          <p>Made with <span className="text-red-500">♥</span> by JOGA JOGO</p>
-          <a href="/privacy-policy" className="text-blue-500 hover:underline">Privacy Policy</a>
+          <p>
+            Made with <span className="text-red-500">♥</span> by JOGA JOGO
+          </p>
+          <a href="/privacy-policy" className="text-blue-500 hover:underline">
+            Privacy Policy
+          </a>
         </footer>
       </div>
     </div>

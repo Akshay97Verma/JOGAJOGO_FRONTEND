@@ -73,8 +73,7 @@ const Profile = () => {
 
           {/* Use <a> to open RegisterAsPartner in a new tab */}
           <a
-            href="/partner/register"
-            target="_blank"
+            href="/dashboard/partner-register"
             rel="noopener noreferrer"
             className="bg-purple-600 hover:bg-purple-700 text-white font-bold py-3 px-5 rounded-lg shadow transition duration-200 ease-in-out transform hover:scale-105 text-center"
           >
