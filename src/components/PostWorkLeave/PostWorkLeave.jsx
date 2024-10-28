@@ -71,7 +71,7 @@ const PostWorkLeave = () => {
       style={{ backgroundImage: `url(${bgPic})` }}
     >
       <div className=" bg-opacity-90 rounded-lg shadow-md p-6 max-w-lg w-full" style={{background:colors.secondbackground}}>
-        <h2 className="text-2xl font-bold mb-4 text-center">Post-Work Leave Tracker</h2>
+        <h2 className="text-2xl font-bold mb-4 text-center">Post-Work feedback</h2>
         
         <form onSubmit={handleAddLeave} className="mb-4 space-y-4">
           <input

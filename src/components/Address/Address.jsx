@@ -1,29 +1,39 @@
-import React, { useState } from 'react';
-import bgPic from '../../../public/a2.jpg'; // Importing your background image
-import { FaSpinner } from 'react-icons/fa'; 
-import { useSelector } from 'react-redux';
+import React, { useState, useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import bgPic from '../../../public/a2.jpg';
+import { FaSpinner } from 'react-icons/fa';
 import { useThemeColors } from '../../utils/useThemeColor';
+import stateCityData from '../../utils/stateCityData';
+import { updateUserAddress } from '../../redux/slice/user/addUpdateUserAddressSlice';
+import { fetchUserAddress } from '../../redux/slice/user/fetchUserAddressSlice';
 
 const Address = () => {
-
-  const isDarkEnabled = useSelector((state)=> state.darkmode.dark);
+  const dispatch = useDispatch();
+  const isDarkEnabled = useSelector((state) => state.darkmode.dark);
   const colors = useThemeColors(isDarkEnabled);
 
-  const [formData, setFormData] = useState({ address: '', city: '', postalCode: '' });
+  const [formData, setFormData] = useState({
+    address: '',
+    state: '',
+    city: '',
+    zipCode: ''
+  });
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const [success, setSuccess] = useState(false);
 
-  // Handle form input change
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
+
+    if (name === 'state') {
+      setFormData((prevData) => ({ ...prevData, city: '' }));
+    }
   };
 
-  // Form validation
   const validateForm = () => {
-    const { address, city, postalCode } = formData;
-    if (!address || !city || !postalCode) {
+    const { address, state, city, zipCode } = formData;
+    if (!address || !state || !city || !zipCode) {
       setError('All fields are required!');
       return false;
     }
@@ -31,38 +41,58 @@ const Address = () => {
     return true;
   };
 
-  // Handle form submission
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (!validateForm()) return;
 
     setLoading(true);
-    setTimeout(() => {
-      setLoading(false);
+    setError('');
+    setSuccess(false);
+
+    try {
+      await dispatch(updateUserAddress(formData)).unwrap();
       setSuccess(true);
-    }, 2000); // Simulate a network request (2 seconds delay)
+    } catch (error) {
+      setError('Failed to save address. Please try again.');
+    } finally {
+      setLoading(false);
+    }
   };
 
-  // Reset form fields
   const handleReset = () => {
-    setFormData({ address: '', city: '', postalCode: '' });
+    setFormData({ address: '', state: '', city: '', zipCode: '' });
     setSuccess(false);
+    setError('');
   };
+
+  const callApiTofetchUserAddress = async () => {
+    const userAddress = await dispatch(fetchUserAddress()).unwrap();
+    console.log(userAddress.address)
+    if (userAddress) {
+      setFormData({
+        address: userAddress.address.address || '',
+        state: userAddress.address.state || '',
+        city: userAddress.address.city || '',
+        zipCode: userAddress.address.zipCode || ''
+      });
+    }
+  }
+
+  useEffect(() => {
+    callApiTofetchUserAddress()
+  }, [])
 
   return (
     <div
       className="min-h-screen flex items-center justify-center bg-cover bg-center"
       style={{ backgroundImage: `url(${bgPic})` }}
     >
-      <div className={`max-w-lg w-full  p-8 rounded-lg shadow-lg ${isDarkEnabled ? "bg-[#040836]" : "bg-white/80 backdrop-blur-lg"}`} style={{color:colors.text}}>
+      <div className={`max-w-lg w-full p-8 rounded-lg shadow-lg ${isDarkEnabled ? "bg-[#040836]" : "bg-white/80 backdrop-blur-lg"}`} style={{ color: colors.text }}>
         <h2 className="text-3xl font-bold text-center mb-6">
           Save or Edit Your Address
         </h2>
 
-        {/* Error Message */}
         {error && <p className="text-red-500 text-center mb-4">{error}</p>}
-
-        {/* Success Message */}
         {success && (
           <p className="text-green-500 text-center mb-4">
             🎉 Address saved successfully!
@@ -70,7 +100,6 @@ const Address = () => {
         )}
 
         <form className="space-y-4" onSubmit={handleSubmit}>
-          {/* Address Input */}
           <div>
             <input
               type="text"
@@ -79,62 +108,67 @@ const Address = () => {
               onChange={handleChange}
               placeholder="Enter your address"
               className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
-              style={{background:colors.cardBg}}
+              style={{ background: colors.cardBg }}
             />
           </div>
 
-          {/* City Input */}
           <div>
-            <input
-              type="text"
+            <select
+              name="state"
+              value={formData.state}
+              onChange={handleChange}
+              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
+              style={{ background: colors.cardBg }}
+            >
+              <option value="">Select a state</option>
+              {Object.keys(stateCityData).map((state) => (
+                <option key={state} value={state}>{state}</option>
+              ))}
+            </select>
+          </div>
+
+          <div>
+            <select
               name="city"
               value={formData.city}
               onChange={handleChange}
-              placeholder="Enter your city"
               className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
-              style={{background:colors.cardBg}}
-
-            />
+              style={{ background: colors.cardBg }}
+              disabled={!formData.state}
+            >
+              <option value="">Select a city</option>
+              {formData.state && stateCityData[formData.state].map((city) => (
+                <option key={city} value={city}>{city}</option>
+              ))}
+            </select>
           </div>
 
-          {/* Postal Code Input */}
           <div>
             <input
               type="text"
-              name="postalCode"
-              value={formData.postalCode}
+              name="zipCode"
+              value={formData.zipCode}
               onChange={handleChange}
-              placeholder="Postal Code"
+              placeholder="Enter postal code"
               className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
-              style={{background:colors.cardBg}}
-
+              style={{ background: colors.cardBg }}
             />
           </div>
 
-          {/* Submit and Reset Buttons */}
-          <div className="flex justify-between items-center">
-            <button
-              type="submit"
-              className={`w-1/2 bg-green-500 text-white py-2 rounded-lg flex justify-center items-center ${
-                loading ? 'opacity-50' : 'hover:bg-green-600 transition duration-300'
-              }`}
-              disabled={loading}
-            >
-              {loading ? (
-                <FaSpinner className="animate-spin mr-2" /> // Show loading spinner
-              ) : (
-                'Save Address'
-              )}
-            </button>
-
+          <div className="flex justify-between">
             <button
               type="button"
               onClick={handleReset}
-              className="w-1/2 bg-gray-300 text-gray-700 py-2 rounded-lg ml-2 hover:bg-gray-400 transition duration-300 shadow-lg"
-              style={{background:colors.cardBg,color:colors.text}}
-
+              className="w-full bg-red-500 text-white py-2 rounded-lg hover:bg-red-600"
             >
               Reset
+            </button>
+            <button
+              type="submit"
+              className={`w-full py-2 rounded-lg hover:bg-indigo-600 ${loading ? 'bg-indigo-400' : 'bg-indigo-500 text-white'}`}
+              disabled={loading}
+            >
+              {loading ? <FaSpinner className="animate-spin" /> : 'Submit'}
             </button>
           </div>
         </form>
