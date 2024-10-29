@@ -2,19 +2,45 @@ import React, { useEffect, useState } from "react";
 import bgPic from "../../../public/p1.jpg"; // Importing the image
 import { useDispatch } from "react-redux";
 import { getUserDetails } from "../../redux/slice/user/getUserSlice";
+// import { updateUser } from "../../redux/slice/user/updateUserSlice"; 
+import { updateUserProfile } from "../../redux/slice/user/updateUserDetailsSlice";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const ProfileEdit = () => {
   const dispatch = useDispatch();
 
   const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
   const [profilePic, setProfilePic] = useState(null);
   const [existingProfilePic, setExistingProfilePic] = useState("");
+  const [loading, setLoading] = useState(false);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("Profile Updated:", { name, email, phone, profilePic });
+    setLoading(true);
+
+    const updatedData = {
+      name,
+      phone,
+      profilePic,
+    };
+
+    try {
+      // Dispatch the updateUser action
+      const response = await dispatch(updateUserProfile(updatedData));
+      if (response.meta.requestStatus === "fulfilled") {
+        toast.success("Profile updated successfully!");
+        // Optionally, you can re-fetch user details after update
+        await callApiToGetUserDetails();
+      } else {
+        toast.error("Failed to update profile.");
+      }
+    } catch (error) {
+      toast.error("Error updating profile: " + error.message);
+    } finally {
+      setLoading(false);
+    }
   };
 
   const handleFileChange = (e) => {
@@ -27,9 +53,10 @@ const ProfileEdit = () => {
       const user = result?.payload?.user;
       setName(user?.name);
       setPhone(user?.phone);
-      setExistingProfilePic(user?.profilePic); 
-
-    } catch (error) {}
+      setExistingProfilePic(user?.profilePic);
+    } catch (error) {
+      toast.error("Error fetching user details.");
+    }
   };
 
   useEffect(() => {
@@ -45,6 +72,7 @@ const ProfileEdit = () => {
         backgroundPosition: "center",
       }}
     >
+      <ToastContainer />
       <div className="relative py-3 sm:max-w-xl sm:mx-auto">
         <div className="absolute inset-0 bg-gradient-to-r from-purple-400 to-pink-600 shadow-lg transform -skew-y-3 sm:skew-y-0 sm:-rotate-6 rounded-3xl"></div>
         <div className="relative px-8 py-10 bg-white shadow-lg sm:rounded-3xl sm:p-20">
@@ -54,7 +82,7 @@ const ProfileEdit = () => {
 
           <form onSubmit={handleSubmit} className="space-y-6">
             <div className="flex flex-col items-center">
-            {profilePic ? (
+              {profilePic ? (
                 <img
                   src={URL.createObjectURL(profilePic)}
                   alt="Profile Preview"
@@ -95,11 +123,6 @@ const ProfileEdit = () => {
               />
             </div>
 
-            {/* <div>
-              <label className="block text-sm font-medium text-gray-700">Email</label>
-              <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} className="mt-1 block w-full px-4 py-2 text-gray-900 bg-gray-100 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent" placeholder="Enter your email" required />
-            </div> */}
-
             <div>
               <label className="block text-sm font-medium text-gray-700">
                 Phone Number
@@ -117,8 +140,9 @@ const ProfileEdit = () => {
               <button
                 type="submit"
                 className="w-full inline-block bg-gradient-to-r from-purple-600 to-pink-600 text-white font-bold px-6 py-3 rounded-lg hover:from-purple-700 hover:to-pink-700 focus:outline-none focus:ring-2 focus:ring-purple-500 shadow-lg transform hover:scale-105 transition-all duration-300"
+                disabled={loading}
               >
-                Save Changes
+                {loading ? "Saving..." : "Save Changes"}
               </button>
             </div>
           </form>

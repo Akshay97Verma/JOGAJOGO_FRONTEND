@@ -5,6 +5,7 @@ import darkModeReducer from "./slice/darkModeSlice";
 import authSlice from "./slice/authSlice";
 import serviceAuthSlice from "./slice/serviceAuthSlice"
 import userSlice from "./slice/user/getUserSlice";
+import { postWorkFeedback } from "./slice/user/postWorkFeedbackSlice";
 
 const persistConfig = {
   key: "root",
@@ -26,12 +27,18 @@ const getUser = persistReducer(
   userSlice
 );
 
+const userFeedback = persistReducer(
+  { ...persistConfig, key: "postWorkFeedback" },
+  postWorkFeedback
+);
+
 const store = configureStore({
   reducer: {       
     darkmode: darkModeReducer, 
     auth: auth,
     authservice:serviceAuth,
-    getUser:getUser
+    getUser:getUser,
+    postWorkFeedback:userFeedback
   },
 });
 
