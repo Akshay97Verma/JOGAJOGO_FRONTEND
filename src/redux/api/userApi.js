@@ -56,3 +56,32 @@ export const fetchtUserAddressApi = async () => {
     throw error;
   }
 };
+
+export const postWorkFeedbackApi = async (feedbackData) => {
+  try {
+    const token = localStorage.getItem("access_token"); // Corrected the token retrieval
+    const response = await axios.post(`${BASE_URL}/user/post-work-feedback`,feedbackData, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    return response.data; 
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const fetchUserFeedbackApi = async () => {
+  try {
+    const token = localStorage.getItem("access_token"); // Corrected the token retrieval
+    const response = await axios.get(`${BASE_URL}/user/fetch-feedback-data`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    return response.data; // Ensure you return the response data
+  } catch (error) {
+    throw error;
+  }
+};
+
