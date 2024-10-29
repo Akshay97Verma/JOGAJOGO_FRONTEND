@@ -25,6 +25,7 @@ function App() {
         <Route path='/' element={<Login />} />
         <Route path='/register' element={<Register />} />
         <Route path='/home' element={<Home/>} />
+        
         <Route path="/payment" element={<PaymentPage />} />
         <Route path="/confirm-order" element={<ConfirmOrderPage />} />
         <Route path="/profile" element={<Profile />} />
