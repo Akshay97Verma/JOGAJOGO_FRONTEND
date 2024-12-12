@@ -1,5 +1,3 @@
-// src/store/userSlice.js
-
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { getUser } from "../../api/userApi";
 

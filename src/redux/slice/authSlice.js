@@ -2,38 +2,44 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { userLogin, userRegister } from "../api/auth";
 import { toast } from "react-toastify";
 
+// AsyncThunk for user login
 export const AuthUser = createAsyncThunk(
-  "userlogin",
+  "auth/login",
   async (payload, { rejectWithValue }) => {
     try {
       const response = await userLogin(payload);
-      return response.data;
+      return response.data; // Assuming response contains { token, user }
     } catch (error) {
-      toast.error(error?.response?.data?.message);
-      return rejectWithValue(error?.response?.data?.message);
+      const errorMessage = error?.response?.data?.message || "Login failed. Please try again.";
+      toast.error(errorMessage);
+      return rejectWithValue(errorMessage);
     }
   }
 );
 
+// AsyncThunk for user registration
 export const AuthRegister = createAsyncThunk(
-  "userreg",
+  "auth/register",
   async (payload, { rejectWithValue }) => {
     try {
       const response = await userRegister(payload);
-      return response.data;
+      return response.data; // Assuming response contains { token, user }
     } catch (error) {
-      toast.error(error?.response?.data?.message);
-      return rejectWithValue(error?.response?.data?.message);
+      const errorMessage = error?.response?.data?.message || "Registration failed. Please try again.";
+      toast.error(errorMessage);
+      return rejectWithValue(errorMessage);
     }
   }
 );
 
+// Initial state
 const initialState = {
-  status: "idle",
+  status: "idle", // 'idle' | 'loading' | 'success' | 'failed'
   error: null,
-  data: null,
+  data: null, // Stores user data
 };
 
+// Auth Slice
 const authSlice = createSlice({
   name: "auth",
   initialState,
@@ -42,47 +48,46 @@ const authSlice = createSlice({
       state.status = "idle";
       state.error = null;
       state.data = null;
+      localStorage.removeItem("isAuthenticated");
+      localStorage.removeItem("access_token");
     },
   },
   extraReducers: (builder) => {
     builder
+      // AuthUser Thunks
       .addCase(AuthUser.pending, (state) => {
-        console.log("pending");
         state.status = "loading";
         state.error = null;
       })
       .addCase(AuthUser.fulfilled, (state, action) => {
-        console.log("success", action.payload);
         state.status = "success";
         state.data = action.payload;
         localStorage.setItem("isAuthenticated", JSON.stringify(true));
         localStorage.setItem("access_token", action.payload.token);
       })
       .addCase(AuthUser.rejected, (state, action) => {
-        console.log("failed");
         state.status = "failed";
         state.error = action.payload;
       })
 
+      // AuthRegister Thunks
       .addCase(AuthRegister.pending, (state) => {
-        console.log("pending");
         state.status = "loading";
         state.error = null;
       })
       .addCase(AuthRegister.fulfilled, (state, action) => {
-        console.log("success", action.payload);
         state.status = "success";
         state.data = action.payload;
         localStorage.setItem("isAuthenticated", JSON.stringify(true));
         localStorage.setItem("access_token", action.payload.token);
       })
       .addCase(AuthRegister.rejected, (state, action) => {
-        console.log("failed");
         state.status = "failed";
         state.error = action.payload;
       });
   },
 });
 
+// Exporting actions and reducer
 export const { userSignout } = authSlice.actions;
 export default authSlice.reducer;
